@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    stages{
+        stage('Build Application'){
+            steps{
+                echo 'Starts building of project'
+                sh 'dotnet restore ErcasCollect/ErcasCollect.csproj'
+                sh 'dotnet build ErcasCollect/ErcasCollect.csproj -c Release -o ErcasCollect/Build'
+                sh 'dotnet publish ErcasCollect/ErcasCollect.csproj -c Release -o ErcasCollect/Output'
+            }
+            post{
+                success{
+                    echo 'archiving artifacts...'
+                    archiveArtifacts artifacts: 'ErcasCollect/Output/**/*.*'
+                }
+            }
+        stage('Deploy in Staging Environment'){
+            steps{
+                build job: 'Deploy_to_production'
+
+            }
+            
+        }
+
+        }
+    }
+}

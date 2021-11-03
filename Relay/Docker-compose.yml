@@ -2,7 +2,8 @@ version: "3"
 
 services:
   templerelay:
-    image: villavelle101/templerelay:report
+    build: .
+    image: templerelay:report
     restart: always
     ports:
       - "8000:80"
