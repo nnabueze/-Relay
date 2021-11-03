@@ -4,9 +4,8 @@ pipeline {
         stage('Build Application') {
             steps {
                 echo 'Starts building of project'
-                sh 'dotnet restore ErcasCollect/ErcasCollect.csproj'
-                sh 'dotnet build ErcasCollect/ErcasCollect.csproj -c Release -o ErcasCollect/Build'
-                sh 'dotnet publish ErcasCollect/ErcasCollect.csproj -c Release -o ErcasCollect/Output'
+                sh 'dotnet restore Relay/Relay.csproj'
+                sh 'dotnet publish Relay/Relay.csproj -c Release -o Relay/Output'
             }
             post{
                 success{
