@@ -10,7 +10,7 @@ pipeline {
             post{
                 success{
                     echo 'archiving artifacts...'
-                    archiveArtifacts artifacts: 'ErcasCollect/Output/**/*.*'
+                    archiveArtifacts artifacts: 'Relay/Output/**/*.*'
                 }
             }
         }
