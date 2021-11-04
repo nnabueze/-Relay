@@ -5,21 +5,20 @@ pipeline {
             steps {
                 echo 'Starts building of project'
                 sh 'dotnet restore Relay/Relay.csproj'
+                sh 'dotnet build Relay/Relay.csproj -c Release -o Relay/Build'
                 sh 'dotnet publish Relay/Relay.csproj -c Release -o Relay/Output'
             }
-            post{
-                success{
-                    echo 'archiving artifacts...'
-                    archiveArtifacts artifacts: '**/*'
-                }
+        }
+        stage('Archive Artifects'){
+            steps{
+                archiveArtifacts artifacts: 'Relay/Output/**/*', followSymlinks: false, onlyIfSuccessful: true
             }
         }
-        stage('Deploy in Staging Environment'){
-            steps {
-                build job: 'Deploy_to_production'
-
+        stage('Deploy'){
+            steps{
+                ftpPublisher alwaysPublishFromMaster: false, continueOnError: false, failOnError: false, publishers: [[configName: 'localtest', transfers: [[asciiMode: false, cleanRemote: false, excludes: '', flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: 'Relay/Output', sourceFiles: 'Relay/Output/**']], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false]]
             }
-            
+
         }
     }
 }
