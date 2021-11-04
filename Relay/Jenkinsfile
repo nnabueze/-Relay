@@ -3,15 +3,16 @@ pipeline {
     stages {
         stage('Build Application') {
             steps {
+                cleanWs()
                 echo 'Starts building of project'
-                sh 'dotnet restore Relay/Relay.csproj'
-                sh 'dotnet build Relay/Relay.csproj -c Release -o Relay/Build'
-                sh 'dotnet publish Relay/Relay.csproj -c Release -o Relay/Output'
+                sh 'dotnet restore Relay.sln'
+                sh 'dotnet build Relay.sln -c Release'
+                sh 'dotnet publish Relay.sln -c Release'
             }
         }
         stage('Archive Artifects'){
             steps{
-                archiveArtifacts artifacts: 'Relay/Output/**/*', followSymlinks: false, onlyIfSuccessful: true
+                archiveArtifacts artifacts: '**/*', followSymlinks: false, onlyIfSuccessful: true
             }
         }
         stage('Deploy'){
@@ -21,7 +22,7 @@ pipeline {
                 failOnError: false, 
                 masterNodeName: '',
                 paramPublish: null,
-                publishers: [[configName: 'localtest', transfers: [[asciiMode: false, cleanRemote: false, excludes: '', flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: 'Relay/Output', sourceFiles: 'Relay/Output/**']], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false]]
+                publishers: [[configName: 'localtest', transfers: [[asciiMode: false, cleanRemote: false, excludes: '', flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*']], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false]]
             }
 
         }
