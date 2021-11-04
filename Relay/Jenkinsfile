@@ -14,6 +14,12 @@ pipeline {
                 archiveArtifacts artifacts: 'Output/*', followSymlinks: false, onlyIfSuccessful: true
             }
         }
+        stage('Test') {
+            steps {
+                echo 'Testing project'
+                sh 'dotnet test Relay/Relay.csproj --configuration Release --no-restore'
+            }
+        }
         stage('Deploy'){
             steps{
                 ftpPublisher alwaysPublishFromMaster: false, 
