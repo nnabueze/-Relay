@@ -3,7 +3,6 @@ pipeline {
     stages {
         stage('Build Application') {
             steps {
-                cleanWs()
                 echo 'Starts building of project'
                 sh 'dotnet restore Relay/Relay.csproj'
                 sh 'dotnet build Relay/Relay.csproj -c Release -o Relay/Build'
