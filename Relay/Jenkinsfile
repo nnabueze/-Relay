@@ -17,7 +17,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing project'
-                sh 'dotnet test Relay/Relay.csproj --configuration Release --no-restore'
+                sh 'dotnet test --logger Relay/Relay.csproj --configuration Release --no-restore'
             }
         }
         stage('Deploy'){
