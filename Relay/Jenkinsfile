@@ -5,9 +5,9 @@ pipeline {
             steps {
                 cleanWs()
                 echo 'Starts building of project'
-                sh 'dotnet restore Relay.sln'
-                sh 'dotnet build Relay.sln -c Release'
-                sh 'dotnet publish Relay.sln -c Release'
+                sh 'dotnet restore Relay/Relay.csproj'
+                sh 'dotnet build Relay/Relay.csproj -c Release'
+                sh 'dotnet publish Relay/Relay.csproj -c Release'
             }
         }
         stage('Archive Artifects'){
